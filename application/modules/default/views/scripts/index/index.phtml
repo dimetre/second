@@ -1,4 +1,14 @@
 <?= $this->render('header.phtml'); ?>
+    <?if(isset($this->admin)):?>
+        Logged as :<?=$this->admin?>
+        <br />
+        <a href="/index/logout">Logout</a>
+        <br />
+        <a href="/index/adauga">Adauga</a>
+    <?else:?>
+        <a href="/index/login">Login</a>
+    <?endif;?>
+    <br />
     <table>
         <tr border="1">
             <th>Poza</th>
@@ -16,6 +26,4 @@
         <? endforeach; ?>
     </table>
     <br />
-    <a href="/index/login">Login</a>
-    <a href="/index/adauga">Adauga</a>
 <?= $this->render('footer.phtml'); ?>
