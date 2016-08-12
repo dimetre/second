@@ -1,5 +1,13 @@
 <?= $this->render('header.phtml'); ?>
-	<?=$this->status?>
+	<?if($this->status):?>
+		<?=$this->status?>
+	<?endif;?>
+	<?if($this->products):?>
+		<?foreach($this->keys as $key):?>
+			<?=$key.'  '.$this->products[$key]?>
+			<br />
+		<?endforeach;?>
+	<?endif;?>
 	<br />
 	<a href="/cart/emptycart">Empty cart</a>
 	<br />

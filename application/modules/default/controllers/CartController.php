@@ -5,7 +5,9 @@ class CartController extends Zend_Controller_Action {
         if(!isset($cart->products)){
             $this->view->status="empty cart";
         } else {
-            $this->view->status="cart not cart";
+            $this->view->status="";
+            $this->view->keys=array_keys($cart->products);
+            $this->view->products=$cart->products;
         }
     }
 	public function emptycartAction(){
