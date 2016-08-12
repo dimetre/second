@@ -1,18 +1,21 @@
 <?= $this->render('header.phtml'); ?>
-    <table border="1">
-        <tr>
-            <th>Nume</th>
-            <th>Data nasterii</th>
+    <table>
+        <tr border="1">
+            <th>Poza</th>
+            <th>Nume produs</th>
+            <th>Pret</th>
             <th>Detalii</th>
         </tr>                                      
-        <? foreach ($this->contacte as $contact): ?>
+        <? foreach ($this->products as $product): ?>
             <tr>
-                <td><?= $contact->nume ?></td>
-                <td><?= $contact->data_nasterii ?></td>
-                <td><?= $contact->detalii ?></td>
+                <td><img src="uploads/<?= $product->id.$product->image ?>" class="img"></td>
+                <td><?= $product->title ?></td>
+                <td><?= $product->price ?></td>
+                <td><?= $product->description ?></td>
             </tr>                                      
         <? endforeach; ?>
     </table>
     <br />
+    <a href="/index/login">Login</a>
     <a href="/index/adauga">Adauga</a>
 <?= $this->render('footer.phtml'); ?>
