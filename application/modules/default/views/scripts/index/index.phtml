@@ -9,12 +9,15 @@
         <a href="/index/login">Login</a>
     <?endif;?>
     <br />
+    <a href="/cart">Cart</a>
+    <br />
     <table>
         <tr border="1">
             <th>Poza</th>
             <th>Nume produs</th>
             <th>Pret</th>
             <th>Detalii</th>
+
         </tr>                                      
         <? foreach ($this->products as $product): ?>
             <tr>
@@ -22,6 +25,7 @@
                 <td><?= $product->title ?></td>
                 <td><?= $product->price ?></td>
                 <td><?= $product->description ?></td>
+                <td><a href="/index/addtocart/id/<?=$product->id?>" >Add to cart</a></td>
             </tr>                                      
         <? endforeach; ?>
     </table>

@@ -1,5 +1,4 @@
 <?php
-use Zend\Session\Container;
 class IndexController extends Zend_Controller_Action {
 
     public function indexAction() {
@@ -47,6 +46,21 @@ class IndexController extends Zend_Controller_Action {
         $admin = new Zend_Session_Namespace('admin');
         unset($admin->name);
         $this->_helper->redirector->gotoUrl('/');
-    }  
+    }
+    public function addtocartAction(){
+        if($this->getRequest()->getParam('id')!=null){
+            $id=$this->getRequest()->getParam('id');
+            $cart = new Zend_Session_Namespace('cart');
+            if(!isset($cart->products)){
+                $cart->products=array();           
+            }
+            if(isset($cart->products[$id])){
+                $cart->products[$id]++;
+            } else {
+                $cart->products[$id]=1;
+            }
+            $this->_helper->redirector->gotoUrl('/');
+        }
+    } 
 }
 ?>
