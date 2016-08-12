@@ -4,12 +4,12 @@
 	<?endif;?>
 	<?if($this->products):?>
 		<?foreach($this->keys as $key):?>
-			<?=$key.'  '.$this->products[$key]?>
+			<?=$this->infos[$key]['title']." ".$this->products[$key]." "?><a href="/cart/removefromcart/id/<?=$key?>">Remove from cart</a>
 			<br />
 		<?endforeach;?>
+		<br />
+		<a href="/cart/emptycart">Empty cart</a>
 	<?endif;?>
-	<br />
-	<a href="/cart/emptycart">Empty cart</a>
 	<br />
 	<a href="/">Home</a>
 <?= $this->render('footer.phtml'); ?>
