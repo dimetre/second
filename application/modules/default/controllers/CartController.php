@@ -13,6 +13,11 @@ class CartController extends Zend_Controller_Action {
             foreach($result as $row){
             	$toRet[$row['id']]=$row;
             }
+            $price = 0 ;
+            foreach($toRet as $row){
+                $price += $row['price']*$cart->products[$row['id']];
+            }
+            $this->view->price=$price;
             $this->view->infos = $toRet;
             $this->view->keys = array_keys($cart->products);
             $this->view->products = $cart->products;
@@ -20,7 +25,9 @@ class CartController extends Zend_Controller_Action {
     }
 	public function emptycartAction(){
         $cart = new Zend_Session_Namespace('cart');
+        $price = new Zend_Session_Namespace('price');
         unset($cart->products);
+        unset($price->value);
         print_r($cart);
         $this->_helper->redirector->gotoUrl('/cart');
     }

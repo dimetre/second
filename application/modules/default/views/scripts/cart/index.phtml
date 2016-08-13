@@ -7,6 +7,7 @@
 			<?=$this->infos[$key]['title']." ".$this->products[$key]." "?><a href="/cart/removefromcart/id/<?=$key?>">Remove from cart</a>
 			<br />
 		<?endforeach;?>
+		<?=$this->price?>
 		<br />
 		<a href="/cart/emptycart">Empty cart</a>
 	<?endif;?>
