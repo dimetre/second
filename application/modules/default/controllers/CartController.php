@@ -6,29 +6,19 @@ class CartController extends Zend_Controller_Action {
             $this->view->status = "empty cart";
         } else {
             $this->view->status = "";
- 			$db=Zend_Db_Table::getDefaultAdapter();
-            $select = $db->select()->from('products')->where('id IN (?)',array_keys($cart->products));
-            $stm = $db->query($select);
-            $result=$stm->fetchAll();
-            foreach($result as $row){
-            	$toRet[$row['id']]=$row;
+            $products = new Application_Models_Products();
+            $this->view->products = $prods = $products->fetchAll(array('id IN (?)'=>array_keys($cart->products)));
+            $this->view->quantity = $quantity = $cart->products;
+            $price = 0;
+            foreach($prods as $prd){
+                $price+=$prd->price*$quantity[$prd->id];
             }
-            $price = 0 ;
-            foreach($toRet as $row){
-                $price += $row['price']*$cart->products[$row['id']];
-            }
-            $this->view->price=$price;
-            $this->view->infos = $toRet;
-            $this->view->keys = array_keys($cart->products);
-            $this->view->products = $cart->products;
+            $this->view->price = $price;    
         }
     }
 	public function emptycartAction(){
         $cart = new Zend_Session_Namespace('cart');
-        $price = new Zend_Session_Namespace('price');
         unset($cart->products);
-        unset($price->value);
-        print_r($cart);
         $this->_helper->redirector->gotoUrl('/cart');
     }
     public function removefromcartAction(){
@@ -50,17 +40,13 @@ class CartController extends Zend_Controller_Action {
         $cart = new Zend_Session_Namespace('cart');
         if(isset($cart->products)){
             $message="Thank you! ";
-            $db=Zend_Db_Table::getDefaultAdapter();
-            $select = $db->select()->from('products')->where('id IN (?)',array_keys($cart->products));
-            $stm = $db->query($select);
-            $result=$stm->fetchAll();
-            foreach($result as $row){
-                $toRet[$row['id']]=$row;
-            }
+            $products = new Application_Models_Products();
+            $prods = $products ->fetchAll(array('id IN (?)'=>array_keys($cart->products)));
             $total = 0;
-            foreach(array_keys($cart->products)as $key){
-                $message .= "  ".$toRet[$key]['title']." quantity:".$cart->products[$key];
-                $total += $cart->products[$key]*$toRet[$key]['price'];
+
+            foreach($prods as $product){
+                $message .= " ".$product->title."  quantity: ".$cart->products[$product->id];
+                $total += $cart->products[$product->id]*$product->price;
             }
             $message.=' Total price:'.$total;
             $headers="From:emailpentrutestareaplicatie@gmail.com";

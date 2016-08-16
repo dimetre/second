@@ -1,5 +1,4 @@
 <?= $this->render('header.phtml'); ?>
-    <a href='/index/test'>Test</a>
     <?if(isset($this->admin)):?>
         Logged as :<?=$this->admin?>
         <br />
@@ -24,7 +23,7 @@
             <tr>
                 <td>
                     <?if($product->image):?>
-                        <img src="uploads/<?= $product->id.$product->image ?>" class="img">
+                        <img src="uploads/<?= $product->id.$product->image ?>" class='img'>
                     <?else:?>
                         <img src="uploads/images.png ?>" class="img">
                     <?endif;?>

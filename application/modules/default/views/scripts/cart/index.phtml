@@ -3,8 +3,8 @@
 		<?=$this->status?>
 	<?endif;?>
 	<?if($this->products):?>
-		<?foreach($this->keys as $key):?>
-			<?=$this->infos[$key]['title']." ".$this->products[$key]." "?><a href="/cart/removefromcart/id/<?=$key?>">Remove from cart</a>
+		<?foreach($this->products as $product):?>
+			<?=$product->title." ".$this->quantity[$product->id].'  '?><a href="/cart/removefromcart/id/<?=$product->id?>">Remove from cart</a>
 			<br />
 		<?endforeach;?>
 		<?=$this->price?>
