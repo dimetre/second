@@ -41,40 +41,36 @@ class ListController extends Zend_Controller_Action{
             //$row['note'] = $row['image'];
             $row['note']="<img src='http://second.local.com/uploads/".$row['id'].$row['image']."' style='width : 150px;hieght :100px;'>";
             $form->populate($row);
-            $lastid = $row['id'];
     	} 
     	$this->view->form = $form;
+
     	if($this->getRequest()->getParam('save')!==null && $this->getRequest()->getParam('title')!==''){
-    		if(!isset($lastid)){
+
+    		if(!$this->getRequest()->getParam('id')){
                 $product = $products->createRow();
-    			$lastid = $product->id;
-    		}
-    		if(!isset($product)){
+    		} else {
     			$product = $products->fetchRow(array('id = ?' => $this->getRequest()->getParam('id')));
         	}
             
-            if($form ->getElement('image')->getValue()){
-                $name = $form ->getElement('image')->getValue();
-                $element = $form ->getElement('image');
-                if($name!== $product->image){
-                    if($product->image!==""){
-                        unlink($uploadpath.$product->id.$product->image);
-                    }
-                    $element ->receive();
-                    rename($uploadpath.$name,$uploadpath.$product->id.$name);
-                }
-            } else {
-                if($product->image){
-                    $name = $product->image;
-                } else {
-                    $name = "";
-                }
-            }
             $product->title = $this->getRequest()->getParam('title');
             $product->price = $this->getRequest()->getParam('price');
             $product->description = $this->getRequest()->getParam('description');
-            $product->image = $name;
-    		$product->save();
+            $element = $form ->getElement('image');
+            $fileName = basename($element->getFileName());
+            if ($fileName){
+                if ($fileName !== $product->image && $product->image) {
+                    unlink($uploadpath.$product->id.$product->image);
+                }
+                $product->image = $fileName;
+            }
+            $product->save();
+
+            if($fileName){
+                $element->addFilter('Rename', array('target' => $element->getDestination() . '/' .  $product->id.$fileName));
+                $element ->receive();
+                //rename($uploadpath.$name,);
+            }
+
     		$this->_helper->redirector->gotoUrl('/list');
     	}	
     }
