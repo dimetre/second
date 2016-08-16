@@ -11,8 +11,9 @@ class IndexController extends Zend_Controller_Action {
     }
     
     public function adaugaAction() {
+        $this->_helper->redirector->gotoUrl("/");
+        die;
         $this->view->form = $form = new Application_Forms_Editare();
-
         if($this->getRequest()->getParam('nume') !== null) {
             if (!$form->isValid($this->getRequest()->getParams())) {
                 $this->view->mesaj = 'Incorect';
@@ -42,11 +43,13 @@ class IndexController extends Zend_Controller_Action {
             }
         } 
     }
+    
     public function logoutAction(){
         $admin = new Zend_Session_Namespace('admin');
         unset($admin->name);
         $this->_helper->redirector->gotoUrl('/');
     }
+
     public function addtocartAction(){
         if($this->getRequest()->getParam('id')!=null){
             $id=$this->getRequest()->getParam('id');
@@ -62,5 +65,6 @@ class IndexController extends Zend_Controller_Action {
             $this->_helper->redirector->gotoUrl('/');
         }
     } 
+
 }
 ?>

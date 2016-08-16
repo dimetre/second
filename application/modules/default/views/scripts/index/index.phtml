@@ -1,4 +1,5 @@
 <?= $this->render('header.phtml'); ?>
+    <a href='/index/test'>Test</a>
     <?if(isset($this->admin)):?>
         Logged as :<?=$this->admin?>
         <br />
@@ -21,7 +22,13 @@
         </tr>                                      
         <? foreach ($this->products as $product): ?>
             <tr>
-                <td><img src="uploads/<?= $product->id.$product->image ?>" class="img"></td>
+                <td>
+                    <?if($product->image):?>
+                        <img src="uploads/<?= $product->id.$product->image ?>" class="img">
+                    <?else:?>
+                        <img src="uploads/images.png ?>" class="img">
+                    <?endif;?>
+                </td>
                 <td><?= $product->title ?></td>
                 <td><?= $product->price ?></td>
                 <td><?= $product->description ?></td>
