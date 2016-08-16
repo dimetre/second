@@ -47,7 +47,27 @@ class CartController extends Zend_Controller_Action {
     	$this->_helper->redirector->gotoUrl('/cart');
     }
     public function checkoutAction(){
-
+        $cart = new Zend_Session_Namespace('cart');
+        if(isset($cart->products)){
+            $message="Thank you! ";
+            $db=Zend_Db_Table::getDefaultAdapter();
+            $select = $db->select()->from('products')->where('id IN (?)',array_keys($cart->products));
+            $stm = $db->query($select);
+            $result=$stm->fetchAll();
+            foreach($result as $row){
+                $toRet[$row['id']]=$row;
+            }
+            $total = 0;
+            foreach(array_keys($cart->products)as $key){
+                $message .= "  ".$toRet[$key]['title']." quantity:".$cart->products[$key];
+                $total += $cart->products[$key]*$toRet[$key]['price'];
+            }
+            $message.=' Total price:'.$total;
+            $headers="From:emailpentrutestareaplicatie@gmail.com";
+            mail(EMAIL,"Testing",$message,$headers);
+            unset($cart->products);
+        } 
+        $this->_helper->redirector->gotoUrl('/');
     }
 }
 
